@@ -47,6 +47,7 @@ public class WindowController {
             for (int j = 0; j < y; j++) {
                 JButton mineButton = new JButton("");
                 mineButton.setMaximumSize(new Dimension(buttonSize, buttonSize));
+                mineButton.setOpaque(true);
                 mineButton.setPreferredSize(mineButton.getMaximumSize());
 
                 int ii = i;
@@ -64,12 +65,11 @@ public class WindowController {
 
                     @Override
                     public void mouseReleased(MouseEvent e) {
-                        //if(isRightButtonPressed) {underlyingButton.getModel().setPressed(true));
                         mineButton.getModel().setArmed(false);
-                        mineButton.getModel().setPressed(false);
 
                         if (pressed) {
-                            minesweeper.clickField(ii, jj, false);
+                            minesweeper.clickField(ii, jj, SwingUtilities.isRightMouseButton(e));
+                            System.out.println("clicked");
                         }
                         pressed = false;
 
@@ -102,18 +102,26 @@ public class WindowController {
     public void updateField(Field field) {
         JButton button = fields[field.getPositionX()][field.getPositionY()];
 
+        if (!button.isEnabled()) {
+            return;
+        }
+
         switch (field.getStatus()) {
             case COVERED: break;
             case FLAGGED:
                 button.setText("F");
-                button.setBackground(Color.GRAY);
+                button.setEnabled(false);
                 break;
             case OPENED:
-                button.setBackground(Color.GRAY);
+                button.setText("•");
                 break;
             case REVEALD:
-
+                button.setText(String.valueOf(field.getNumber()));
                 break;
+        }
+
+        if (field.getType() == Field.Type.BOMB) {
+            button.setText("B");
         }
     }
 }
