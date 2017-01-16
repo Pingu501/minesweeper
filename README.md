@@ -1,3 +1,3 @@
 # Hello World
 
-This is Minesweeper
+This is Minesweeper!
