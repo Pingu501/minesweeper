@@ -10,8 +10,5 @@ public class Application {
 		game = new Minesweeper();
 		game.initGame();
 	}
-
-	public static void fieldClicked(int xPosition, int yPosition, boolean isRightClick) {
-		game.clickField(xPosition, yPosition, isRightClick);
-	}
+  
 }
